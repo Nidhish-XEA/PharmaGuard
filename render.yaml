@@ -1,0 +1,6 @@
+﻿services:
+  - type: web
+    name: pharmaguard
+    env: docker
+    plan: free
+    autoDeploy: true

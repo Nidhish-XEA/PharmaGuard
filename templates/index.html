@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PharmaGuard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <h2>PharmaGuard</h2>
+    <nav>
+        <a href="#how">How It Works</a>
+        <a href="#analyze">Genetic Checker</a>
+        <a href="#evidence">Clinical Basis</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Clinical Genetic Drug Safety Platform</h1>
+        <p>
+            Evidence-based pharmacogenomic decision support using CPIC Level A guidelines.
+            Designed for both patients and clinicians.
+        </p>
+        <a href="#analyze" class="btn-primary">Run Analysis</a>
+    </div>
+</section>
+
+<section id="how" class="features">
+    <h2>How PharmaGuard Works</h2>
+    <div class="feature-grid">
+        <div class="card">
+            <h3>1. Upload VCF</h3>
+            <p>Extract clinically relevant genetic variants.</p>
+        </div>
+        <div class="card">
+            <h3>2. CPIC Rule Engine</h3>
+            <p>Apply peer-reviewed pharmacogenomic prescribing rules.</p>
+        </div>
+        <div class="card">
+            <h3>3. Actionable Decision</h3>
+            <p>Receive risk score, severity classification, and alternatives.</p>
+        </div>
+    </div>
+</section>
+
+<section id="analyze" class="analyze">
+    <h2>Genetic Compatibility Checker</h2>
+
+    <form action="/analyze" method="post" enctype="multipart/form-data">
+        
+        <label>Upload VCF File</label>
+        <input type="file" name="file" required>
+
+        <label>Select Drug</label>
+        <select name="drug" required>
+            <option value="Clopidogrel">Clopidogrel</option>
+            <option value="Codeine">Codeine</option>
+        </select>
+
+        <label>Mode</label>
+        <select name="mode" required>
+            <option value="patient">Patient Mode</option>
+            <option value="doctor">Doctor Mode</option>
+        </select>
+
+        <button type="submit">Analyze Drug Risk</button>
+
+    </form>
+</section>
+
+<section id="evidence" class="evidence">
+    <h2>Clinical Evidence Framework</h2>
+    <ul>
+        <li>✔ CPIC Level A guideline integration</li>
+        <li>✔ Deterministic gene–drug interaction engine</li>
+        <li>✔ Structured risk scoring system</li>
+        <li>✔ AI-assisted clinical explanation layer</li>
+    </ul>
+</section>
+
+<footer class="footer">
+    <p>For Clinical Decision Support Use Only.</p>
+</footer>
+
+</body>
+</html>

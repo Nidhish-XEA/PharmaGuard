@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", system-ui, sans-serif;
+  background: radial-gradient(circle at 15% 22%, rgba(211, 217, 222, 0.28), transparent 34%),
+    radial-gradient(circle at 86% 18%, rgba(215, 225, 214, 0.24), transparent 31%),
+    linear-gradient(180deg, #f6f8f7 0%, #f3f5f6 100%);
+  color: #12284a;
+}
+
+::selection {
+  background: rgba(110, 137, 98, 0.22);
+  color: #12284a;
+}
+
+.hero-shell {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.44) 58%, rgba(248, 250, 248, 0.68) 100%);
+}
+
+.hero-right-glow {
+  background: radial-gradient(circle at 65% 45%, rgba(231, 239, 229, 0.65), rgba(246, 248, 247, 0.08) 68%, transparent 80%);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(157, 176, 149, 0.22);
+  border-radius: 1.1rem;
+  box-shadow: 0 8px 24px rgba(18, 40, 74, 0.06);
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-content px-6 md:px-10;
+}
+
+.label {
+  @apply text-xs uppercase tracking-[0.24em] text-slate-400;
+}
