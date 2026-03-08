@@ -2,13 +2,10 @@
 
 import json
 import os
-from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 try:
@@ -101,10 +98,6 @@ def normalize_gt(gt: str) -> str:
 
 
 def genotype_from_vcf(gt_field: str, ref: str, alt: str) -> str:
-    """
-    Convert VCF genotype indices (e.g. 0/1) into allele genotype (e.g. A/G).
-    Falls back to normalized raw genotype when conversion is not possible.
-    """
     gt_raw = gt_field.strip().replace("|", "/")
     idx = gt_raw.split("/")
     if len(idx) != 2:
@@ -239,33 +232,6 @@ async def analyze_vcf(
     result["explanation"] = ai_explanation(result, drug, mode)
     result["variantCount"] = len(variants)
     return result
-
-
-DIST_DIR = Path(__file__).parent / "dist"
-ASSETS_DIR = DIST_DIR / "assets"
-INDEX_FILE = DIST_DIR / "index.html"
-
-if ASSETS_DIR.exists():
-    app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
-
-
-@app.get("/", include_in_schema=False)
-def spa_root():
-    if INDEX_FILE.exists():
-        return FileResponse(INDEX_FILE)
-    return {"message": "Frontend build not found. Run `npm run build` first."}
-
-
-@app.get("/{full_path:path}", include_in_schema=False)
-def spa_fallback(full_path: str):
-    if full_path.startswith("api/"):
-        raise HTTPException(status_code=404, detail="API route not found.")
-    candidate = DIST_DIR / full_path
-    if candidate.exists() and candidate.is_file():
-        return FileResponse(candidate)
-    if INDEX_FILE.exists():
-        return FileResponse(INDEX_FILE)
-    raise HTTPException(status_code=404, detail="Frontend build not found.")
 
 
 if __name__ == "__main__":

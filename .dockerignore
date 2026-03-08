@@ -1,8 +1,0 @@
-﻿node_modules
-venv
-__pycache__
-*.pyc
-.git
-dist
-static
-templates
