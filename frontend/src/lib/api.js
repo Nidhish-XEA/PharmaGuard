@@ -1,13 +1,29 @@
-﻿const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+const PROD_FALLBACK_API = "https://pharmaguard-api-ut0x.onrender.com";
+
+const host = typeof window !== "undefined" ? window.location.hostname : "";
+const isLocalHost = host === "localhost" || host === "127.0.0.1";
+
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  (isLocalHost ? "http://127.0.0.1:8000" : PROD_FALLBACK_API);
+
+async function apiFetch(path, options = {}) {
+  try {
+    const res = await fetch(`${API_BASE}${path}`, options);
+    return res;
+  } catch {
+    throw new Error(`Network error: unable to reach API at ${API_BASE}.`);
+  }
+}
 
 export async function checkApiHealth() {
-  const res = await fetch(`${API_BASE}/api/health`);
+  const res = await apiFetch("/api/health");
   if (!res.ok) throw new Error("API unavailable");
   return res.json();
 }
 
 export async function analyzeFromJson({ drug, variants, mode = "doctor" }) {
-  const res = await fetch(`${API_BASE}/api/analyze/json`, {
+  const res = await apiFetch("/api/analyze/json", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ drug, variants, mode }),
@@ -27,7 +43,7 @@ export async function analyzeFromVcf({ file, drug, mode = "doctor" }) {
   form.append("drug", drug);
   form.append("mode", mode);
 
-  const res = await fetch(`${API_BASE}/api/analyze/vcf`, {
+  const res = await apiFetch("/api/analyze/vcf", {
     method: "POST",
     body: form,
   });
