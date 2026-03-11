@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import os
@@ -16,10 +16,17 @@ except Exception:
 
 app = FastAPI(title="PharmaGuard API", version="1.0.0")
 
+origin_env = os.getenv("FRONTEND_ORIGINS", "")
+allow_origins = [o.strip() for o in origin_env.split(",") if o.strip()] or [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://pharma-guard-gamma.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allow_origins,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -199,6 +206,11 @@ def ai_explanation(result: dict[str, Any], drug: str, mode: str) -> str:
             f"{result['gene']} result for {drug}: {result['phenotype']}. "
             f"Clinical action: {result['recommendation']} ({result['evidence']})."
         )
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"service": "PharmaGuard API", "status": "ok"}
 
 
 @app.get("/api/health")

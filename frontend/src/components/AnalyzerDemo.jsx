@@ -100,18 +100,37 @@ export default function AnalyzerDemo() {
     }, 180);
 
     try {
-      const responses = await Promise.all(
+      const settled = await Promise.allSettled(
         selectedDrugs.map(async (drug) => {
           const result = await analyzeFromVcf({ file, drug });
           return { drug, ...result };
         })
       );
 
-      responses.sort((a, b) => (RISK_ORDER[b.riskLevel] || 0) - (RISK_ORDER[a.riskLevel] || 0));
-      setReports(responses);
+      const success = settled
+        .filter((s) => s.status === "fulfilled")
+        .map((s) => s.value);
+
+      const failed = settled
+        .filter((s) => s.status === "rejected")
+        .map((s) => s.reason?.message || "Unknown error");
+
+      if (success.length > 0) {
+        success.sort((a, b) => (RISK_ORDER[b.riskLevel] || 0) - (RISK_ORDER[a.riskLevel] || 0));
+        setReports(success);
+        if (failed.length > 0) {
+          setError(`Some drugs failed: ${failed[0]}`);
+        }
+      } else {
+        setReports([]);
+        setError(failed[0] || "Analysis failed for all selected drugs.");
+      }
+
       setProgress(100);
     } catch (err) {
+      setReports([]);
       setError(err?.message || "Analysis failed.");
+      setProgress(100);
     } finally {
       clearInterval(timer);
       setLoading(false);
@@ -376,4 +395,3 @@ function DrugReportCard({ report }) {
     </div>
   );
 }
-
