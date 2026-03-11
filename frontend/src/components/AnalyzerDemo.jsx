@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UploadCloud, FileCheck2, AlertCircle, Activity } from "lucide-react";
 import { analyzeFromJson, analyzeFromVcf, checkApiHealth } from "../lib/api";

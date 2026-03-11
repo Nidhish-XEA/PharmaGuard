@@ -1,4 +1,4 @@
-﻿import {
+import {
   ArrowRight,
   Dna,
   FlaskConical,
@@ -69,7 +69,7 @@ export default function Hero() {
         <div className="relative z-10 max-w-xl">
           <p className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.30em] text-[#8d9bb0]">
             <span className="inline-block h-px w-10 bg-[#c5ceda]" />
-            Pharmacogenomics · Drug Safety
+            Pharmacogenomics � Drug Safety
           </p>
 
           <h1 className="text-[58px] font-semibold leading-[1.03] tracking-[-0.03em] text-[#10264c] md:text-[76px]">
@@ -109,4 +109,3 @@ export default function Hero() {
     </header>
   );
 }
-
